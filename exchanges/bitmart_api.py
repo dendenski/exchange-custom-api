@@ -24,20 +24,22 @@ class BitmartApi(BaseApi):
         json = response.json()
         return json
 
+    def get_timestamp():
+        return str(datetime.datetime.now().timestamp() * 1000).split('.')[0]
+
+    def sign(message, secret_key):
+        mac = hmac.new(bytes(secret_key, encoding='utf8'), bytes(message, encoding='utf-8'), digestmod='sha256')
+        return mac.hexdigest()
+
+    def pre_substring(timestamp, memo, body):
+        return f'{str(timestamp)}#{memo}#{body}'
+
+
     def get_balance(self):
         endpoint =f"/account/v1/wallet"
         ret_json = self.generate_keyed(endpoint)
         df_balance = pd.DataFrame (ret_json["data"]["wallet"])
         return df_balance
-
-    def get_trades(self):
-        # endpoint =f"spot/v4/query/trades"
-        # if self._pair != "":
-
-        # parameters = f"?"
-        # df_trades = pd.DataFrame ()
-        return df_trades
-
 
     def get_deposit_withdraw(self, transfer_type):
         endpoint = f"/account/v2/deposit-withdraw/history"
