@@ -49,6 +49,7 @@ class BybitApi(BaseApi):
         cursor = ""
         start_time = ""
         end_time = ""
+        pair = ""
         if self._start_date != "":
                 start_time = '&startTime=' + str(self.start_date_ms) 
         if self._end_date != "":
@@ -59,6 +60,7 @@ class BybitApi(BaseApi):
             params= "limit=50" + cursor + start_time + end_time + pair
             ret = self.HTTP_Request(endpoint,method,params)
             if ret["retCode"] != 0:
+                print(ret)
                 print("please wait ...")
                 time.sleep(10)
                 continue
@@ -67,6 +69,11 @@ class BybitApi(BaseApi):
                 trade_list +=ret["result"]["list"]
             else:
                 break
+        
         df_trades = pd.DataFrame (trade_list)
+        if not df_trades.empty:
+            df_trades["transactionTime"] = df_trades["transactionTime"].apply(pd.to_numeric).apply(pd.to_numeric)
+            df_trades["datetime"] = df_trades["transactionTime"].apply(lambda x: datetime.fromtimestamp(x/1000))
+        
         return df_trades
 
