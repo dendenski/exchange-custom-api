@@ -103,9 +103,10 @@ def main():
     ex_api = ex_list[ex](input_data) if ex in ex_list else ex_list["base"](input_data)
     df = pd.DataFrame()
     df = ex_api.get_data()
+    filename = input_data["_exchange"]+"_"+input_data["_method"]+".csv"
     print(df)
-    # if  not df.empty:
-    #     df.to_csv(filename,index=False) 
+    if not df.empty:
+        df.to_csv(filename,index=False) 
 
 if __name__ == "__main__":
     main()

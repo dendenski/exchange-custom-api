@@ -33,7 +33,7 @@ class BybitApi(BaseApi):
             response = self.httpClient.request(method, self.base_url+endPoint, headers=headers, data=payload)
         else:
             response = self.httpClient.request(method, self.base_url+endPoint+"?"+payload, headers=headers)
-        print(response.json())
+        # print(response.json())
         return response.json()
 
 
