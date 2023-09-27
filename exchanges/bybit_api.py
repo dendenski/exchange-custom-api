@@ -33,7 +33,6 @@ class BybitApi(BaseApi):
             response = self.httpClient.request(method, self.base_url+endPoint, headers=headers, data=payload)
         else:
             response = self.httpClient.request(method, self.base_url+endPoint+"?"+payload, headers=headers)
-        # print(response.json())
         return response.json()
 
 
@@ -48,8 +47,16 @@ class BybitApi(BaseApi):
         method="GET"
         trade_list = []
         cursor = ""
+        start_time = ""
+        end_time = ""
+        if self._start_date != "":
+                start_time = '&startTime=' + str(self.start_date_ms) 
+        if self._end_date != "":
+                end_time = '&endTime=' + str(self.end_date_ms) 
+        if self._pair != "":
+                pair = "&baseCoin=" + self._pair.split("-")[0]
         while 1:
-            params='startTime=' + str(self.start_date_ms) + "&limit=50" + cursor
+            params= "limit=50" + cursor + start_time + end_time + pair
             ret = self.HTTP_Request(endpoint,method,params)
             if ret["retCode"] != 0:
                 print("please wait ...")
