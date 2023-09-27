@@ -4,6 +4,8 @@ import numpy as np
 
 from exchanges.ascendex_api import AscendexApi
 from exchanges.base_api import BaseApi
+from exchanges.bitmart_api import BitmartApi
+from exchanges.bybit_api import BybitApi
 from exchanges.gate_api import GateApi
 from exchanges.kucoin_api import KucoinApi
 
@@ -91,6 +93,8 @@ def main():
     }
     ex_list = {
             "ascendex" : AscendexApi,
+            "bitmart" : BitmartApi,
+            "bybit" : BybitApi,
             "gate" : GateApi,
             "kucoin" : KucoinApi,
             "base" : BaseApi
